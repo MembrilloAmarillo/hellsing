@@ -7,9 +7,9 @@ class vec2
 {
 public:
 	vec2();
-	vec2(__m128 aux);
-	vec2(float f);
-	vec2( float* C);
+	vec2( __m128 aux );
+	vec2( float f );
+	vec2( float* C );
 
 	// Devuelve instruccion sse
 	inline const __m128& sse() const { return a; } 

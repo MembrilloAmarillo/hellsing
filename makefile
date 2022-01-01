@@ -4,21 +4,34 @@ CXXFLAGS    = -std=c++17 -I./include
 
 SRC = ./src/hellsing.cpp     \
 		./src/vec2_math.cpp  \
-		./src/vec3_math.cpp
+		./src/vec3_math.cpp  \
+		./src/my_string.cpp 
 
-OBJ = ${SRC:.cpp=.o}
+TES = ./test/test.cpp        \
+		./test/timer.cpp     \
+		./src/vec2_math.cpp  \
+		./src/my_string.cpp 
 
-OUT = hellsing
+SRC_OBJ = ${SRC:.cpp=.o}
 
-all: ${OUT}
+TES_OBJ = ${TES:.cpp=.o}
 
-${OUT} : ${OBJ}
+SRC_OUT = hellsing
+TES_OUT = test
+
+${OUT} : ${SRC_OBJ}
 	${CC} -o $@ $^ ${CFLAGS} ${CXXFLAGS} 
 
 %.o : ./src/%.cpp 
 	${CC} -c -o $@ $< ${CFLAGS} ${CXXFLAGS} 
 
+$(TES_OUT) : ${TES_OBJ}
+	${CC} -o $@ $^ ${CFLAGS} ${CXXFLAGS}
+
+%.o : ./test/%.cpp ./src/my_string.cpp ./src/vec2_math.cpp
+	${CC} -c -o $@ $< ${CFLAGS} ${CXXFLAGS} 
+
 .PHONY : clean
 
 clean:
-	${RM} ${RMFLAGS} ${OBJ} ${OUT}
+	${RM} ${RMFLAGS} ${TES_OBJ} ${SRC_OBJ} ${OUT}
