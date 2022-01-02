@@ -1,23 +1,5 @@
 #include <ctime>
-
-class Timer {
-private:
-
-	bool active;
-
-	std::clock_t str, end;
-
-	/* CLOCKS PER SEC*/
-	static double CPS;
-
-public:
-	Timer() : active( false ) {}
-	~Timer() = default;
-
-	void   start();
-	void   stop();
-	double time() const;
-};
+#include "timer.h"
 
 double Timer::CPS( CLOCKS_PER_SEC );
 
