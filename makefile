@@ -1,16 +1,19 @@
 CC          = g++
-CFLAGS      = -Wall -Wextra -pedantic
-CXXFLAGS    = -std=c++17 -I./include
+CXXFLAGS    = -std=c++17 -I./include -Wall -Wextra -pedantic -Wpsabi -march=native -mavx -O3
 
 SRC = ./src/hellsing.cpp     \
-		./src/vec2_math.cpp  \
+		./src/vec_avx_math.cpp  \
 		./src/vec3_math.cpp  \
 		./src/my_string.cpp 
 
 TES = ./test/test.cpp        \
 		./test/timer.cpp     \
-		./src/vec2_math.cpp  \
-		./src/my_string.cpp 
+		./src/vec3_math.cpp  \
+		./src/my_string.cpp  \
+		./src/vec_avx_math.cpp 
+
+INC = ./include/vec_avx_math.h \
+		./include/vec3_math.h
 
 SRC_OBJ = ${SRC:.cpp=.o}
 
@@ -28,7 +31,7 @@ ${OUT} : ${SRC_OBJ}
 $(TES_OUT) : ${TES_OBJ}
 	${CC} -o $@ $^ ${CFLAGS} ${CXXFLAGS}
 
-%.o : ./test/%.cpp ./src/my_string.cpp ./src/vec2_math.cpp
+%.o : ./test/%.cpp ./src/my_string.cpp ./src/vec3_math.cpp ./src/vec_avx_math.cpp ${INC}
 	${CC} -c -o $@ $< ${CFLAGS} ${CXXFLAGS} 
 
 .PHONY : clean

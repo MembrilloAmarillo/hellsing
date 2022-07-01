@@ -9,7 +9,7 @@ class vec3
 	vec3();
 	vec3( __m128 aux );
 	vec3( float f );
-	vec3( float* C );
+	vec3( const float* C );
     
 	// Devuelve instruccion sse
 	inline const __m128& sse() const { return a; } 
@@ -36,7 +36,7 @@ class vec3
 	~vec3();
     
     private:
-	float* __A = nullptr;
+	float __A[4] __attribute__( ( aligned(16) ) );
 	__m128 a;
     
 	// Convierte el vector sse en vector float

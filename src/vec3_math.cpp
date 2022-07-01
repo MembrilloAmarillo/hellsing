@@ -1,35 +1,27 @@
 #include "vec3_math.h"
 
-vec3::vec3() :
-__A(new float[4])
+vec3::vec3()
 {
 	a = _mm_set_ps1(0.0f);
 	_mm_store_ps(__A, a);
 }
 
 vec3::vec3( __m128 aux ) :
-a(aux),
-__A(new float[4])
+a(aux)
 { 
 	convert_to_float();
 }
 
-vec3::vec3( float f ) :
-__A(new float[4])
-{
+vec3::vec3( float f ) {
 	a = _mm_set_ps1(f);
 	_mm_store_ps(__A, a);
 }
 
-vec3::vec3(float* C)
-{
-	if ( C == nullptr )
-	{
-		// Inicializamos a 0s
-		C = new float[4];
-		C [0] = C [1] = C [2] = C [3] = 0.0f; 
-	} // En caso contrario construimos con el valor pasado
-	__A = C;
+vec3::vec3( const float* C ) {
+	
+    assert( C != nullptr );
+    
+    for( int i = 0; i < 4; i++ ) __A[i] = C[i];
 	a = _mm_load_ps(__A);
 }
 
@@ -38,7 +30,7 @@ vec3& vec3::operator = (const vec3& v2)
 	if (this != &v2) // Evitamos autoasignacion
 	{
 		// Copiamos parametros
-		this->__A = v2.__A;
+		for( int i = 0; i < 4; i++ ) __A[i] = v2.__A[i];
 		this->a   = v2.a;
 	}
 	return *this;
@@ -141,9 +133,4 @@ vec3 operator * ( const vec3& v1, const vec3& v2 )
 
 vec3::~vec3()
 {
-	if (__A != nullptr) // Evitamos borrar puntero nulo
-	{
-		delete[] __A;
-		__A = nullptr;
-	}
 }
